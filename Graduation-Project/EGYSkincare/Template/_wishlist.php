@@ -4,8 +4,6 @@
             $deletedrecord = $Wish->deleteProduct($_POST['item_id']);
         }
     }
-
-
 ?>
 <section id="cart" class="py-3 mb-5">
     <div class="container-fluid w-75">
@@ -20,7 +18,7 @@
                         <div class="row border-top py-3 mt-3 ">
                             <div class="col-sm-2">
                                 <!-- display the products image from product table -->
-                                <img src="<?php echo $item['image'] ?? "unknown" ?>" style="height: 120px;" alt="cart1" class="img-fluid">
+                                <a href="<?php printf('%s?product_id=%s','product.php',$item['product_id'])?>"><img src="<?php echo $item['image'] ?? "./assets/products/1.png"; ?>" alt="product1" class="img-fluid"></a>
                             </div>
                             <div class="col-sm-8">
                                 <!-- display product's name -->

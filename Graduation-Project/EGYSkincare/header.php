@@ -30,7 +30,7 @@
     <!-- header starts here -->
     <header id="header">
         <div class="strip d-flex justify-content-between px-4 py-1 bg-light">
-            <p class="font-rale font-size-14 text-black-50 m-0"> Made in Egypt</p>
+            <p class="font-rale font-size-18 text-black-50 m-0"> Welcome !<a href="Registration/logout.php" class="mx-3">Log out</a></p>
             <div class="font-rubik font-size-18 d-flex align-items-center">
                 <!-- Search Input -->
                 <form class="d-flex" action="search.php" method="GET">
@@ -63,12 +63,10 @@
                     <a class="nav-link" href="category.php">Categories</a>
                     <a class="nav-link" href="skintype.php">Skin Types</a>
                     <a class="nav-link" href="ingredient.php">Ingredients</a>
-                    <a class="nav-link" href="routine.php">My Routine</a>
+                    <a class="nav-link" href="routine.php">MyDailyRoutine</a>
                     <a class="nav-link" href="#">Reccomends</a>
                 </div>
             </div>
         </div>
     </nav>
-
-    <!-- main starts here -->
     <main id="main-site">

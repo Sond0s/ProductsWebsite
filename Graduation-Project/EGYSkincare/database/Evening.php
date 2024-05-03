@@ -1,16 +1,18 @@
-<!-- Adding products into morning routine section -->
+<!-- Adding products into Evening routine section -->
 <?php
-class Morning
+
+class Evening
 {
     public $db = null;
+
     public function __construct(DBController $db)
     {
         if (!isset($db->con)) return null;
         $this->db = $db;
     }
 
-    // insert into Morningroutine table
-    public  function insertIntoMorningRoutine($params = null, $table = "morning_routine")
+    // insert into Evening routine table
+    public  function insertIntoEveningRoutine($params = null, $table = "evening_routine")
     {
         if ($this->db->con != null) {
             if ($params != null) {
@@ -18,7 +20,6 @@ class Morning
                 $columns = implode(',', array_keys($params));
 
                 $values = implode(',', array_values($params));
-
                 // create sql query
                 $query_string = sprintf("INSERT INTO %s(%s) VALUES(%s)", $table, $columns, $values);
 
@@ -30,19 +31,20 @@ class Morning
     }
 
 
-    // Method for adding to morning routine
-    public function addToMorningRoutine($userid, $itemid)
+
+    // Method in your class for adding to evening routine
+    public function addToEveningRoutine($userid, $itemid)
     {
-        $maxMorningProducts = 4;
+        $maxEveningProducts = 4;
 
         if (isset($userid) && isset($itemid)) {
-            $morningRoutineCount = $this->getMorningRoutineCount($userid);
-            if ($morningRoutineCount < $maxMorningProducts) {
+            $eveningRoutineCount = $this->getEveningRoutineCount($userid);
+            if ($eveningRoutineCount < $maxEveningProducts) {
                 $params = array(
                     "user_id" => $userid,
                     "product_id" => $itemid
                 );
-                $result = $this->insertIntoMorningRoutine($params); //store result into db
+                $result = $this->insertIntoEveningRoutine($params); //store result into db
                 if ($result) {
                     // Reload page
                     header("Location: ./routine.php ");
@@ -50,16 +52,16 @@ class Morning
                 }
             } else {
                 // Handle case where maximum limit is reached
-                echo "Morning routine is full. You can't add more products.";
+                echo "Evening routine is full. You can't add more products.";
             }
         }
     }
 
-    // Method to get the count of products in morning routine
-    public function getMorningRoutineCount($userid)
+    // Method to get the count of products in evening routine
+    public function getEveningRoutineCount($userid)
     {
         if ($this->db->con != null) {
-            $query_string = sprintf("SELECT COUNT(*) as count FROM morning_routine WHERE user_id=%s", $userid);
+            $query_string = sprintf("SELECT COUNT(*) as count FROM evening_routine WHERE user_id=%s", $userid);
             $result = $this->db->con->query($query_string);
             $data = $result->fetch_assoc();
             return $data['count'];
@@ -67,8 +69,8 @@ class Morning
         return 0;
     }
 
-    // Delete product from the morning routine
-    public function deleteMorningRoutineProduct($item_id = null, $table = 'morning_routine')
+    // Delete product from the evening routine
+    public function deleteEveningRoutineProduct($item_id = null, $table = 'evening_routine')
     {
         if ($item_id != null) {
             $result = $this->db->con->query("DELETE FROM {$table} WHERE product_id={$item_id}");
@@ -79,14 +81,16 @@ class Morning
         }
     }
 
-       // get product id from morning routine list
-       public function getMorningId($morningArray = null, $key = "product_id")
-       {
-           if ($morningArray != null) {
-               $morning_id = array_map(function ($value) use ($key) {
-                   return $value[$key];
-               }, $morningArray);
-               return $morning_id;
-           }
-       }
+
+      // get product ud from evening routine list
+      public function getEveningId($eveningArray = null, $key = "product_id")
+      {
+          if ($eveningArray != null) {
+              $evening_id = array_map(function ($value) use ($key) {
+                  return $value[$key];
+              }, $eveningArray);
+              return $evening_id;
+          }
+      }
 }
+?>

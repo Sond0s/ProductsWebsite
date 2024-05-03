@@ -12,9 +12,30 @@ class Product
     }
 
     // fetch product data using getData Method
+    // public function getData($table = 'product')
+    // {
+    //     $result = $this->db->con->query("SELECT * FROM {$table}");
+
+    //     $resultArray = array();
+
+    //     // fetch product data one by one
+    //     while ($item = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+    //         $resultArray[] = $item;
+    //     }
+
+    //     return $resultArray;
+    // }
+
+
     public function getData($table = 'product')
     {
         $result = $this->db->con->query("SELECT * FROM {$table}");
+
+        if (!$result) {
+            // If the query fails, handle the error
+            echo "Error: " . $this->db->con->error; // Display the error message
+            return array(); // Return an empty array
+        }
 
         $resultArray = array();
 
@@ -25,6 +46,7 @@ class Product
 
         return $resultArray;
     }
+
 
     // get product using item id
     public function getProduct($item_id = null, $table = 'product')
@@ -41,6 +63,8 @@ class Product
             return $resultArray;
         }
     }
+
+    
     public function getRoutine($item_id = null, $table = 'routine')
     {
         if (isset($item_id)) {

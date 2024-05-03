@@ -2,14 +2,21 @@
 $item_id = $_GET['product_id'] ?? 1;
 foreach ($product->getData() as $item) :
     if ($item['product_id'] == $item_id) :
+
         // request method post
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            // calling add to wishlist method
-            $Wish->addToWishlist($_POST['user_id'], $_POST['product_id']);
-        }
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            // calling add to wishlist method
-            $Wish->addToRoutine($_POST['product_id'], $_POST['user_id']);
+            // Handle adding to wishlist
+            if (isset($_POST['wishlist_submit'])) {
+                $Wish->addToWishlist($_POST['wish_user_id'], $_POST['wish_product_id']);
+            }
+            // Handle adding to morning routine
+            if (isset($_POST['morning_routine_submit'])) {
+                $Morning->addToMorningRoutine($_POST['morning_user_id'], $_POST['morning_product_id']);
+            }
+            // Handle adding to evening routine
+            if (isset($_POST['evening_routine_submit'])) {
+                $Evening->addToEveningRoutine($_POST['evening_user_id'], $_POST['evening_product_id']);
+            }
         }
 ?>
         <!-- product information -->
@@ -43,33 +50,48 @@ foreach ($product->getData() as $item) :
                             </tr>
                         </table>
 
-
                         <!-- form to add products into wishlist table -->
                         <form method="post">
-                            <input type="hidden" name="product_id" value="<?php echo $item['product_id'] ?? '1'; ?>">
-                            <input type="hidden" name="user_id" value="<?php echo  1; ?>">
+                            <input type="hidden" name="wish_product_id" value="<?php echo $item['product_id'] ?? '1'; ?>">
+                            <input type="hidden" name="wish_user_id" value="<?php echo  1; ?>">
                             <?php
-                            if (in_array($item['product_id'], $Wish->getWishId($product->getData('wishlist')))) {
-                                echo ' <button type="submit" disabled class="btn btn-danger form-control mb-2" >In The Wishlist</button>
-';
+                            $wishlistIds = $Wish->getWishId($product->getData('wishlist'));
+                            if (is_array($wishlistIds) && in_array($item['product_id'], $wishlistIds)) {
+                                echo '<button type="submit" disabled class="btn btn-danger form-control mb-2">In The Wishlist</button>';
                             } else {
-                                echo ' <button type="submit" class="btn btn-primary form-control mb-2" name="wishlist_submit">Add to Wishlist</button>
-                                ';
+                                echo '<button type="submit" class="btn btn-primary form-control mb-2" name="wishlist_submit">Add to Wishlist</button>';
                             }
                             ?>
 
-                            <form method="post">
-                                <div class="row">
-                                    <div class="col">
-                                        <!-- Add to Morning Routine button -->
-                                        <button type="submit" class="btn btn-success form-control" name="morning_routine_submit">Add to Morning Routine</button>
-                                    </div>
-                                    <div class="col">
-                                        <!-- Add to Evening Routine button -->
-                                        <button type="submit" class="btn btn-info form-control" name="evening_routine_submit">Add to Evening Routine</button>
-                                    </div>
+                            <!-- Add to Routine buttons -->
+                            <div class="row">
+                                <div class="col-6 col-md-6 mb-2 mb-md-0 py-2">
+                                    <input type="hidden" name="morning_product_id" value="<?php echo $item['product_id'] ?? '1'; ?>">
+                                    <input type="hidden" name="morning_user_id" value="<?php echo 1; ?>">
+                                    <?php
+                                    $morninglistIds = $Morning->getMorningId($product->getData('morning_routine'));
+                                    if (is_array($morninglistIds) && in_array($item['product_id'], $morninglistIds)) {
+                                        echo '<button type="submit" disabled class="btn btn-danger form-control mb-2">In The Morning Routine</button>';
+                                    } else {
+                                        echo '<button type="submit" class="btn btn-success form-control" name="morning_routine_submit">Add to Morning Routine</button>';
+                                    }
+                                    ?>
+
                                 </div>
-                            </form>
+                                <div class="col-6 col-md-6 mb-2 mb-md-0 py-2">
+                                    <input type="hidden" name="evening_product_id" value="<?php echo $item['product_id'] ?? '1'; ?>">
+                                    <input type="hidden" name="evening_user_id" value="<?php echo  1; ?>">
+                                    <?php
+                                    $eveninglistIds = $Evening->getEveningId($product->getData('evening_routine'));
+                                    if (is_array($eveninglistIds) && in_array($item['product_id'], $eveninglistIds)) {
+                                        echo '<button type="submit" disabled class="btn btn-danger form-control mb-2">In The Evening Routine</button>';
+                                    } else {
+                                        echo '<button type="submit" class="btn btn-info form-control" name="evening_routine_submit">Add to Evening Routine</button>';
+                                    }
+                                    ?>
+                                    
+                                </div>
+                            </div>
                         </form>
                     </div>
 

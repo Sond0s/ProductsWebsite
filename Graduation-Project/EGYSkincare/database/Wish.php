@@ -1,5 +1,5 @@
 <?php
-// php wishlist class
+
 class Wish
 {
     public $db = null;
@@ -14,8 +14,7 @@ class Wish
     {
         if ($this->db->con != null) {
             if ($params != null) {
-                // "Insert into cart(user_id) values (0)"
-                // get table columns
+
                 $columns = implode(',', array_keys($params));
 
                 $values = implode(',', array_values($params));
@@ -29,6 +28,7 @@ class Wish
             }
         }
     }
+    
     // get user_id and product_id and insert them in wishlist table
     public function addToWishlist($userid, $itemid)
     {
@@ -40,7 +40,7 @@ class Wish
             $result = $this->insertIntoWishlist($params);
             if ($result) {
                 // reload page
-                header("Location: " . $_SERVER['PHP_SELF']);
+                header("Location: ./wishlist.php" );
             }
         }
     }
